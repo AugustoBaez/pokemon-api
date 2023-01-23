@@ -4,21 +4,26 @@ import axios from 'axios'
 
 function App() {
   const [listPokemon, setListPokemon] = useState([])
+  const [currentPokemon, setCurrentPokemon] = useState("https://pokeapi.co/api/v2/pokemon")
+  const [morePokemon, setMorePokemon] = useState([])
 
-
-  const consultaPokemon = () => {
-    axios.get("https://pokeapi.co/api/v2/pokemon").then(res => {
+  useEffect(() => {
+    axios.get(currentPokemon).then(res => {
+      setMorePokemon(res.data.next)
       setListPokemon(res.data.results.map(p => p.name))
     })
+  }, [currentPokemon])
 
+  const consultaPokemon = () => {
+    setCurrentPokemon(morePokemon)
   }
 
   return (
     <div className="App">
-      <button onClick={consultaPokemon} >Fetch Pokemon</button>
+      <button onClick={consultaPokemon}>Fetch Pokemon</button>
       {
         listPokemon.map((pokemon) => (
-          <li key={pokemon.id}>{pokemon}</li>
+          <li>{pokemon}</li>
         ))
       }
     </div>
