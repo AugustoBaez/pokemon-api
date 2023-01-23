@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     axios.get(currentPokemon).then(res => {
       setMorePokemon(res.data.next)
-      setListPokemon(res.data.results.map(p => p.name))
+      setListPokemon(res.data.results.map(pokemon => pokemon.name))
     })
   }, [currentPokemon])
 
